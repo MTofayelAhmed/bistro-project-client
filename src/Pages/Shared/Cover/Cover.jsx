@@ -4,6 +4,7 @@ import { Parallax } from 'react-parallax';
 const Cover = ({ img, title }) => {
   return (
     <Parallax
+    className='mb-14'
       blur={{ min: -30, max: 30 }}
       bgImage={img}
       bgImageAlt="the menu"
