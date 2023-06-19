@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 const Main = () => {
 const location = useLocation()
 console.log(location)
-const noHeaderFooter = location.pathname.includes('login')
+const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('signUp') 
   return (
     <div>
      { noHeaderFooter || <Navbar></Navbar>}
