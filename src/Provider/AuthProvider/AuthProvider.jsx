@@ -16,13 +16,7 @@ const [loading, setLoading]= useState(true)
 const updateUserProfile = (name, photo)=> {
   return updateProfile(auth.currentUser, {
     displayName: name, photoURL: photo
-  }).then(() => {
-    // Profile updated!
-    // ...
-  }).catch((error) => {
-    // An error occurred
-    // ...
-  });
+  })
 }
 
 
