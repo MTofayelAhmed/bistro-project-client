@@ -11,14 +11,14 @@ const navigate = useNavigate()
 const location = useLocation()
   const handleFoodCart = (item) => {
     console.log(item)
-    if(user && user.email){
-      const orderItem= { menuItemId: _id, name, price, image, email: user.email }
+    if(user && user?.email){
+      const cartItem= { menuItemId: _id, name, price, image, email: user?.email }
       fetch('http://localhost:5000/carts', {
         method: "POST",
         headers: {
           'content-type': 'application/json'
         },
-        body: JSON.stringify(orderItem)
+        body: JSON.stringify(cartItem)
       })
       .then (res=> res.json())
       .then(data => {
