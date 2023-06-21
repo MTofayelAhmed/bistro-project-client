@@ -7,7 +7,11 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import { RiMenuLine } from 'react-icons/ri';
+import useCart from "../Hooks/useCart";
 const Dashboard = () => {
+const [cart]= useCart()
+
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -37,7 +41,9 @@ const Dashboard = () => {
           <li>
             <NavLink to="/dashboard/myCart">
               <FaShoppingCart></FaShoppingCart> my Cart
+              <div className="badge badge-secondary"> +{cart?.length} </div>
             </NavLink>
+          
           </li>
           <li>
             <NavLink to='/'>
@@ -56,7 +62,8 @@ const Dashboard = () => {
           </li>
           <li>
             <NavLink to="/order/salad">
-              <FaShoppingCart></FaShoppingCart> Shop{" "}
+              <FaShoppingCart></FaShoppingCart> Shop
+              
             </NavLink>
           </li>
           <li>

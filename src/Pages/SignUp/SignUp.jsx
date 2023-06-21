@@ -4,10 +4,10 @@ import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 const SignUp = () => {
-
-  const {createUser, updateUserProfile}= useContext(AuthContext)
-  const navigate = useNavigate()
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -16,27 +16,42 @@ const SignUp = () => {
   } = useForm();
   const onSubmit = (data) => {
     createUser(data.email, data.password)
-    .then(result => {
-      const createdUser = result.user;
-      console.log(createdUser)
-      updateUserProfile(data.name, data.photoURL)
-      reset()
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'user Created successfully',
-        showConfirmButton: false,
-        timer: 1500
+      .then((result) => {
+        const createdUser = result.user;
+        console.log(createdUser);
+        updateUserProfile(data.name, data.photoURL);
+        const savedUser = { name: data.name, email: data.email };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(savedUser)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if(data.insertedId){
+            reset();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "user Created successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/login");
+          }
+        })
+
+       
       })
-      navigate('/login')
-    })
-    .catch (error=> {
-      console.log(error.message)
-    })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
   return (
     <>
-     <Helmet>
+      <Helmet>
         <title>Bistro Boss | signUp</title>
       </Helmet>
       <div className="hero min-h-screen bg-base-200">
@@ -105,7 +120,6 @@ const SignUp = () => {
                 )}
                 {errors.password?.type === "pattern" && (
                   <span className="text-red-500">
-                    
                     password must have one upper case , one lower case, one
                     number and special character
                   </span>
@@ -132,9 +146,9 @@ const SignUp = () => {
               </div>
             </form>
             <p className="text-center py-4 text-orange-400">
-            
               Already Register ? <Link to="/login"> please login</Link>
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>

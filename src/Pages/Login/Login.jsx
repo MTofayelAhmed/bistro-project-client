@@ -5,10 +5,12 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 const Login = () => {
   
   const [disabled, setDisabled] = useState(true);
@@ -115,6 +117,7 @@ const from = location.state?.from?.pathname || "/";
             <p className="text-center py-4 text-orange-400">
               New Here ? <Link to="/signUp"> please SignUp</Link>{" "}
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
