@@ -5,11 +5,15 @@ import {
   FaHome,
   FaCalendarMinus,
   FaPhoneAlt,
+  FaUtensils,
+  FaBook,
+  FaUsers,
 } from "react-icons/fa";
 import { RiMenuLine } from 'react-icons/ri';
 import useCart from "../Hooks/useCart";
 const Dashboard = () => {
 const [cart]= useCart()
+const isAdmin = true;
 
 
   return (
@@ -27,7 +31,41 @@ const [cart]= useCart()
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
+
+
+          {
+            isAdmin ? <>
+              <li>
+            <NavLink to='/'>
+              <FaHome></FaHome> Admin Home
+            </NavLink>
+          </li>
           <li>
+            <NavLink to='dashboard/addItem'>
+              
+             <FaUtensils></FaUtensils> Add Item
+            </NavLink>
+          </li>
+         
+          <li>
+            <NavLink to='/dashboard/manageItem'>
+              
+             <FaUtensils></FaUtensils> Manage Item
+            </NavLink>
+          </li>
+         
+          <li>
+            <NavLink to='/dashboard/booking'>
+             <FaBook></FaBook> Manage Booking
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to='/dashboard/allUser'>
+            <FaUsers></FaUsers> All User
+            </NavLink>
+          </li>
+            </> : <>
+            <li>
             <NavLink to='/'>
               <FaHome></FaHome> User Home
             </NavLink>
@@ -50,6 +88,12 @@ const [cart]= useCart()
               <FaWallet></FaWallet> Payment History
             </NavLink>
           </li>
+            </>
+          }
+        
+
+
+
           <div className="divider "></div>
           <li>
             <NavLink to="/">
