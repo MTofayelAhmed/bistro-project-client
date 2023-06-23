@@ -26,12 +26,14 @@ const SignUp = () => {
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify(savedUser)
-        })
+          body: JSON.stringify(savedUser)})
+
         .then(res => res.json())
         .then(data => {
+          console.log(" new created user", data)
           if(data.insertedId){
-            reset();
+
+          
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -39,11 +41,12 @@ const SignUp = () => {
               showConfirmButton: false,
               timer: 1500,
             });
-            navigate("/login");
+            reset()
+            navigate("/login")
+         
           }
         })
-
-       
+      
       })
       .catch((error) => {
         console.log(error.message);

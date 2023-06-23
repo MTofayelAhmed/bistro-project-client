@@ -11,9 +11,11 @@ import {
 } from "react-icons/fa";
 import { RiMenuLine } from 'react-icons/ri';
 import useCart from "../Hooks/useCart";
+import useAdmin from "../Hooks/useAdmin";
 const Dashboard = () => {
 const [cart]= useCart()
-const isAdmin = true;
+// const isAdmin = true;
+const [isAdmin] = useAdmin()
 
 
   return (

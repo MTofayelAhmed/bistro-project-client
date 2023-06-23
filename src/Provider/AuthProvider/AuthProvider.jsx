@@ -38,6 +38,7 @@ const createUser = (email, password)=> {
  return  createUserWithEmailAndPassword (auth, email, password)
  
 }
+
 const signIn = (email, password)=> {
   setLoading(true)
   return signInWithEmailAndPassword(auth, email, password)
@@ -55,14 +56,15 @@ useEffect(()=>{
       .then(data => {
         console.log(data.data.token)
         localStorage.setItem('access-token', data.data.token)
-      })
+        setLoading(false)
+      }) 
     }
     else{
       localStorage.removeItem('access-token')
     }
 
     setUser(currentUser)
-    setLoading(false)
+   
   
   })
 
