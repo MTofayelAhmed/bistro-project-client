@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
+const img_hosting_token = import.meta.env.VITE_IMAGE_HOSTING_API;
 
 const AddItem = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -16,15 +16,15 @@ const AddItem = () => {
         const formData = new FormData();
         formData.append('image', data.image[0])
 
-        fetch(img_hosting_url, {
+        fetch(img_hosting_url, { 
             method: 'POST',
             body: formData
         })
         .then(res => res.json())
         .then(imgResponse => {
             if(imgResponse.success){
-                const imgURL = imgResponse.data.display_url;
-                const {name, price, category, recipe} = data;
+                const imgURL = imgResponse.data.display_url
+                const {name, price, category, recipe} = data
                 const newItem = {name, price: parseFloat(price), category, recipe, image:imgURL}
                 console.log(newItem)
                 axiosSecure.post('/menu', newItem)
