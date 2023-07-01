@@ -13,9 +13,9 @@ import { RiMenuLine } from 'react-icons/ri';
 import useCart from "../Hooks/useCart";
 import useAdmin from "../Hooks/useAdmin";
 const Dashboard = () => {
-const [cart]= useCart()
-// const isAdmin = true;
-const [isAdmin] = useAdmin()
+  const [cart] = useCart()
+  // const isAdmin = true;
+  const [isAdmin] = useAdmin()
 
 
   return (
@@ -38,68 +38,68 @@ const [isAdmin] = useAdmin()
           {
             isAdmin ? <>
               <li>
-            <NavLink to='/'>
-              <FaHome></FaHome> Admin Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/dashboard/addItem'>
-              
-             <FaUtensils></FaUtensils> Add Item
-            </NavLink>
-          </li>
-         
-          <li>
-            <NavLink to='/dashboard/manageItem'>
-              
-             <FaUtensils></FaUtensils> Manage Item
-            </NavLink>
-          </li>
-         
-          <li>
-            <NavLink to='/dashboard/booking'>
-             <FaBook></FaBook> Manage Booking
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/dashboard/allUser'>
-            <FaUsers></FaUsers> All User
-            </NavLink>
-          </li>
+                <NavLink to='/'>
+                  <FaHome></FaHome> Admin Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to='/dashboard/addItem'>
+
+                  <FaUtensils></FaUtensils> Add Item
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to='/dashboard/manageItem'>
+
+                  <FaUtensils></FaUtensils> Manage Item
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to='/dashboard/booking'>
+                  <FaBook></FaBook> Manage Booking
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to='/dashboard/allUser'>
+                  <FaUsers></FaUsers> All User
+                </NavLink>
+              </li>
             </> : <>
-            <li>
-            <NavLink to='/'>
-              <FaHome></FaHome> User Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/'>
-              
-              <FaCalendarMinus></FaCalendarMinus> Reservation
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/myCart">
-              <FaShoppingCart></FaShoppingCart> my Cart
-              <div className="badge badge-secondary"> +{cart?.length} </div>
-            </NavLink>
-          
-          </li>
-          <li>
-            <NavLink to='/'>
-              <FaWallet></FaWallet> Payment History
-            </NavLink>
-          </li>
+              <li>
+                <NavLink to='/'>
+                  <FaHome></FaHome> User Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to='/'>
+
+                  <FaCalendarMinus></FaCalendarMinus> Reservation
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/myCart">
+                  <FaShoppingCart></FaShoppingCart> my Cart
+                  <div className="badge badge-secondary"> +{cart?.length} </div>
+                </NavLink>
+
+              </li>
+              <li>
+                <NavLink to='/'>
+                  <FaWallet></FaWallet> Payment History
+                </NavLink>
+              </li>
             </>
           }
-        
+
 
 
 
           <div className="divider "></div>
           <li>
             <NavLink to="/">
-              
+
               <FaHome></FaHome> Home
             </NavLink>
           </li>
@@ -109,12 +109,12 @@ const [isAdmin] = useAdmin()
           <li>
             <NavLink to="/order/salad">
               <FaShoppingCart></FaShoppingCart> Shop
-              
+
             </NavLink>
           </li>
           <li>
             <NavLink to='/'>
-              
+
               <FaPhoneAlt></FaPhoneAlt> Contact
             </NavLink>
           </li>

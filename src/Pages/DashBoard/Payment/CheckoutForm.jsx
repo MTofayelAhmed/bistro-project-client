@@ -10,16 +10,18 @@ const CheckoutForm = ({ price }) => {
   const elements = useElements()
   const [axiosSecure] = useAxiosSecure()
   const [clientSecret, setClientSecret] = useState('');
+  const [processing, setProcessing] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
   const{user}= useContext(AuthContext)
-    useEffect(() => {
-      if (price > 0) {
+  useEffect(() => {
+    if (price > 0) {
         axiosSecure.post('/create-payment-intent', { price })
-          .then(res => {
-            console.log(res.data.clientSecret)
-            setClientSecret(res.data.clientSecret);
-          })
-      }
-    }, [price, axiosSecure])
+            .then(res => {
+                console.log(res.data.clientSecret)
+                setClientSecret(res.data.clientSecret);
+            })
+    }
+}, [])
 
 
 
@@ -50,6 +52,7 @@ const CheckoutForm = ({ price }) => {
       setCardError('')
       console.log('payment method', paymentMethod)
     }
+    setProcessing(true)
 
     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
       clientSecret,
@@ -58,7 +61,14 @@ const CheckoutForm = ({ price }) => {
           card: card,
           billing_details: {
             email: user?.email || 'unknown',
-            name: user?.displayName || 'anonymous'
+            name: user?.displayName || 'anonymous',
+             address: {
+          line1: '123 Street',
+          city: 'City',
+          state: 'State',
+          postal_code: '12345',
+          country: 'US', // Replace with the customer's country code
+        },
           },
         },
       },
@@ -67,8 +77,16 @@ const CheckoutForm = ({ price }) => {
     if (confirmError) {
       console.log(confirmError);
   }
+  setProcessing(false)
 
-  console.log(paymentIntent)
+  console.log('payment intent', paymentIntent)
+
+  if (paymentIntent.status === 'succeeded') {
+    setTransactionId(paymentIntent.id);
+    // save payment information to the server
+   
+
+}
 
 
   }
@@ -91,11 +109,12 @@ const CheckoutForm = ({ price }) => {
             },
           }}
         />
-        <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret}>
+        <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
           Pay
         </button>
       </form>
       {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
+      {transactionId && <p className="text-green-500">Transaction complete with transactionId: {transactionId}</p>}
     </>
   );
 };
