@@ -4,7 +4,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({cart, price }) => {
   const [cardError, setCardError] = useState('');
   const stripe = useStripe()
   const elements = useElements()
@@ -84,12 +84,31 @@ const CheckoutForm = ({ price }) => {
   if (paymentIntent.status === 'succeeded') {
     setTransactionId(paymentIntent.id);
     // save payment information to the server
-   
+
+    const payment = {
+        email: user?.email,
+        transactionId: paymentIntent.id,
+        price,
+        date: new Date(),
+        quantity: cart.length,
+        cartItems: cart.map(item => item._id),
+        menuItems: cart.map(item => item.menuItemId),
+        status: 'service pending',
+        itemNames: cart.map(item => item.name)
+    }
+    axiosSecure.post('/payments', payment)
+        .then(res => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+                // display confirm
+            }
+        })
+}
 
 }
 
 
-  }
+  
   return (
     <>
       <form className="w-2/3 m-8" onSubmit={handleSubmit}>
