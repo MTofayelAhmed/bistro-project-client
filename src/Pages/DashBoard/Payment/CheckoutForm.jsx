@@ -1,39 +1,80 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price }) => {
   const [cardError, setCardError] = useState('');
-    const stripe = useStripe()
-const elements = useElements()
-    const handleSubmit = async (event)=>{
-        event.preventDefault ()
-        if(!stripe || !elements){
-            return 
-        }
-        const card = elements.getElement(CardElement)
-        if(card=== null){
-            return
-
-        }
-
-        const { error, paymentMethod} = await stripe.createPaymentMethod({
-          type: 'card',
-          card
-      })
-      if(error){
-        setCardError(error.message)
-        console.log('error', error)
+  const stripe = useStripe()
+  const elements = useElements()
+  const [axiosSecure] = useAxiosSecure()
+  const [clientSecret, setClientSecret] = useState('');
+  const{user}= useContext(AuthContext)
+    useEffect(() => {
+      if (price > 0) {
+        axiosSecure.post('/create-payment-intent', { price })
+          .then(res => {
+            console.log(res.data.clientSecret)
+            setClientSecret(res.data.clientSecret);
+          })
       }
-      else{
-        setCardError('')
-        console.log('payment method', paymentMethod)
-      }
+    }, [price, axiosSecure])
+
+
+
+
+
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    if (!stripe || !elements) {
+      return
+    }
+    const card = elements.getElement(CardElement)
+    if (card === null) {
+      return
 
     }
-    return (
-     <>
-        <form  className="w-2/3 m-8" onSubmit={handleSubmit}>
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card
+    })
+    if (error) {
+      setCardError(error.message)
+      console.log('error', error)
+    }
+    else {
+      setCardError('')
+      console.log('payment method', paymentMethod)
+    }
+
+    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: card,
+          billing_details: {
+            email: user?.email || 'unknown',
+            name: user?.displayName || 'anonymous'
+          },
+        },
+      },
+    );
+    
+    if (confirmError) {
+      console.log(confirmError);
+  }
+
+  console.log(paymentIntent)
+
+
+  }
+  return (
+    <>
+      <form className="w-2/3 m-8" onSubmit={handleSubmit}>
         <CardElement
           options={{
             style: {
@@ -50,13 +91,13 @@ const elements = useElements()
             },
           }}
         />
-        <button  className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe}>
+        <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret}>
           Pay
         </button>
       </form>
       {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-     </>
-    );
+    </>
+  );
 };
 
 export default CheckoutForm;
