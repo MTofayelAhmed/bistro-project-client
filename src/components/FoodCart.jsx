@@ -54,10 +54,10 @@ const location = useLocation()
     }
   }
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card w-100 bg-base-100 shadow-xl ">
       <figure>
         <img
-        className=" h-96"
+        className=" h-48 w-96"
           src={image}
           alt="Shoes"
         />

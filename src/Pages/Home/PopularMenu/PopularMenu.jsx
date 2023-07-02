@@ -8,7 +8,7 @@ const [menu]= useMenu()
 const popular = menu.filter(item => item.category === "popular")
 
   return (
-    <section className="mb-16">
+    <section className="mb-16 mx-10">
       <SectionTitle heading="from our menu" subHeading="Popular Items" />
       <div className=" grid grid-cols-2 gap-5">
         {popular.map((item) => (

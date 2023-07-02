@@ -5,7 +5,7 @@ import MenuItem from "../../Shared/MenuItem/MenuItem";
 
 const MenuCategory = ({items, title, img}) => {
   return (
-   <div className=" mb-14">
+   <div className=" mb-14 ">
        { title && <Cover img={img} title={title}></Cover>}
        <div className=" grid grid-cols-2 gap-5 mt-16">
         {items.map((item) => (

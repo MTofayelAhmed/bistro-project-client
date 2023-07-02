@@ -1,7 +1,7 @@
 const RecommendCard = ({ item }) => {
   const { name, recipe, image } = item;
   return (
-    <div className="card card-compact w-96 bg-base-100 shadow-xl">
+    <div className="card card-compact w-100 bg-base-100 shadow-xl">
       <figure>
         <img src={image} alt="Shoes" />
       </figure>
